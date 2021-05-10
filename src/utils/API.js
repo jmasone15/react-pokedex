@@ -11,5 +11,8 @@ export default {
     },
     getOnePokemon: (query) => {
         return axios.get(`${baseURL}pokemon/${query}`);
+    },
+    getPokemonRange: (limit, offset) => {
+        return axios.get(`${baseURL}pokemon/?limit=${limit}&offset=${offset}`)
     }
 }
