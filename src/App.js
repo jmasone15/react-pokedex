@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import API from "./utils/API";
 
 function App() {
+
+  const [randomPokemon, setRandomPokemon] = useState("Click the button!");
+
+  async function handleClick(e) {
+    e.preventDefault();
+    const pokemon = await API.getAllPokemon();
+
+    // Generate random number based on size of array.
+    // Grab a random array value.
+    // Capitilize the first letter.
+    let num = Math.floor(Math.random() * pokemon.data.results.length);
+    let random = pokemon.data.results[num].name;
+    let upperCase = random.charAt(0).toUpperCase() + random.slice(1);
+
+    setRandomPokemon(upperCase);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Hello, world!</h1>
+      <h4>Your random Pokemon is: <u>{randomPokemon}</u></h4>
+      <button onClick={(e) => handleClick(e)}>Random Pokemon</button>
     </div>
   );
 }
