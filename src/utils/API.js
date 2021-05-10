@@ -8,5 +8,8 @@ export default {
     },
     getPokemonData: (url) => {
         return axios.get(url);
+    },
+    getOnePokemon: (query) => {
+        return axios.get(`${baseURL}pokemon/${query}`);
     }
 }
