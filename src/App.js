@@ -13,43 +13,53 @@ function App() {
 
   async function handleRandomClick(e) {
     e.preventDefault();
-    let pokemon = await API.getAllPokemon();
+    try {
+      let pokemon = await API.getAllPokemon();
 
-    // Generate random number based on size of array.
-    // Grab a random array value.
-    // Capitilize the first letter of the name.
-    let num = Math.floor(Math.random() * pokemon.data.results.length);
-    let random = pokemon.data.results[num];
-    let upperCase = random.name.charAt(0).toUpperCase() + random.name.slice(1);
+      // Generate random number based on size of array.
+      // Grab a random array value.
+      // Capitilize the first letter of the name.
+      let num = Math.floor(Math.random() * pokemon.data.results.length);
+      let random = pokemon.data.results[num];
+      let upperCase = random.name.charAt(0).toUpperCase() + random.name.slice(1);
 
-    setRandomPokemon(upperCase);
-    getPokemonInfo(random.url, "random");
+      setRandomPokemon(upperCase);
+      getPokemonInfo(random.url, "random");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async function handleSearchFormSubmit(e) {
     e.preventDefault();
+    try {
+      if (searchPokemon === "") {
+        alert("Please enter a pokemon name.")
+      } else {
 
-    if (searchPokemon === "") {
-      alert("Please enter a pokemon name.")
-    } else {
+        // Lowercase search query and remove white space
+        // Capitilize the first letter of the name.
+        let searchString = searchPokemon.toLowerCase().replace(/\s+/g, '')
+        let pokemon = await API.getOnePokemon(searchString);
+        let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
 
-      // Lowercase search query and remove white space
-      // Capitilize the first letter of the name.
-      let searchString = searchPokemon.toLowerCase().replace(/\s+/g, '')
-      let pokemon = await API.getOnePokemon(searchString);
-      let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
-
-      setSearchPokemon(upperCase);
-      setPokemonData(pokemon.data);
-      setSearchShow(true);
+        setSearchPokemon(upperCase);
+        setPokemonData(pokemon.data);
+        setSearchShow(true);
+      }
+    } catch (err) {
+      alert("No pokemon found, please try again");
     }
   }
 
-  async function getPokemonInfo(url, x) {
-
-    const info = await API.getPokemonData(url);
-    setPokemonData(info.data);
-    setRandomShow(true);
+  async function getPokemonInfo(url) {
+    try {
+      const info = await API.getPokemonData(url);
+      setPokemonData(info.data);
+      setRandomShow(true);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
