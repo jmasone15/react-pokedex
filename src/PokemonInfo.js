@@ -1,11 +1,15 @@
 import React from 'react'
 
 export default function PokemonInfo({ data }) {
+    const pokeName = data.name.charAt(0).toUpperCase() + data.name.slice(1);
     return (
         <div>
-            <p>{data.name}</p>
+            <h2>{pokeName} #{data.id}</h2>
             <img src={data.sprites.front_default} alt={data.name} />
             <img src={data.sprites.back_default} alt={data.name} />
+            {data.types.map((x) => (
+                <p key={x.type.slot}>{x.type.name}</p>
+            ))}
         </div>
     )
 }

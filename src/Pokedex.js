@@ -1,35 +1,6 @@
-import React, { useState } from 'react';
-import API from "./utils/API";
-import PokemonInfo from "./PokemonInfo";
+import React from 'react';
 
-export default function Pokedex() {
-
-    const [rangePokemon, setRangePokemon] = useState([]);
-    const [pokeInfo, setPokeInfo] = useState({});
-    const [showPokemon, setShowPokemon] = useState(false);
-
-    async function getRangeData(e, limit, offset) {
-        e.preventDefault();
-        try {
-            setRangePokemon([]);
-            const results = await API.getPokemonRange(limit, offset);
-            setRangePokemon(results.data.results);
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
-    function pokemonData(e, url) {
-        e.preventDefault();
-        try {
-            API.getPokemonData(url).then((res) => {
-                setPokeInfo(res.data);
-                setShowPokemon(true);
-            })
-        } catch (err) {
-            console.error(err);
-        }
-    }
+export default function Pokedex({ getRangeData, pokemonRangeData, rangePokemon }) {
 
     return (
         <div>
@@ -50,12 +21,9 @@ export default function Pokedex() {
                 {rangePokemon.map((p) => (
                     <div>
                         <p key={p.id}>{p.name}</p>
-                        <button onClick={(e => pokemonData(e, p.url))}>More Info</button>
+                        <button onClick={(e => pokemonRangeData(e, p.url))}>More Info</button>
                     </div>
                 ))}
-                {showPokemon === true && (
-                    <PokemonInfo data={pokeInfo} />
-                )}
             </div>
         </div>
     )

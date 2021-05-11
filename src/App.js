@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pokedex from "./Pokedex";
 import RandomPoke from "./RandomPoke";
 import SearchPoke from "./SearchPoke";
+import PokemonInfo from "./PokemonInfo";
 import API from "./utils/API";
 
 function App() {
@@ -10,79 +11,89 @@ function App() {
   const [searchPokemon, setSearchPokemon] = useState("");
   const [searchNumber, setSearchNumber] = useState("");
   const [pokemonData, setPokemonData] = useState({});
-  const [randomShow, setRandomShow] = useState(false);
-  const [searchShow, setSearchShow] = useState(false);
+  const [rangePokemon, setRangePokemon] = useState([]);
+  const [pokeInfo, setPokeInfo] = useState({});
+  const [show, setShow] = useState("");
+
+  async function getRangeData(e, limit, offset) {
+    e.preventDefault();
+    setRangePokemon([]);
+
+    const results = await API.getPokemonRange(limit, offset);
+    setRangePokemon(results.data.results);
+  }
+
+  function pokemonRangeData(e, url) {
+    e.preventDefault();
+
+    API.getPokemonData(url).then((res) => {
+      setPokeInfo(res.data);
+      setShow("pokedex");
+    });
+  }
 
   async function handleRandomClick(e) {
     e.preventDefault();
-    try {
-      let pokemon = await API.getAllPokemon();
 
-      // Generate random number based on size of array.
-      // Grab a random array value.
-      // Capitilize the first letter of the name.
-      let num = Math.floor(Math.random() * pokemon.data.results.length);
-      let random = pokemon.data.results[num];
-      let upperCase = random.name.charAt(0).toUpperCase() + random.name.slice(1);
+    let pokemon = await API.getAllPokemon();
 
-      setRandomPokemon(upperCase);
-      getPokemonInfo(random.url, "random");
-    } catch (err) {
-      console.error(err);
-    }
+    // Generate random number based on size of array.
+    // Grab a random array value.
+    // Capitilize the first letter of the name.
+    let num = Math.floor(Math.random() * pokemon.data.results.length);
+    let random = pokemon.data.results[num];
+    let upperCase = random.name.charAt(0).toUpperCase() + random.name.slice(1);
+
+    // Get Data on individual pokemon with url link
+    setRandomPokemon(upperCase);
+    getPokemonInfo(random.url);
+
   }
 
   async function handleSearchFormSubmit(e) {
     e.preventDefault();
-    try {
-      if (searchPokemon === "") {
-        alert("Please enter a pokemon name.")
-      } else {
 
-        // Lowercase search query and remove white space
-        // Capitilize the first letter of the name.
-        let searchString = searchPokemon.toLowerCase().replace(/\s+/g, '')
-        let pokemon = await API.getOnePokemon(searchString);
-        let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+    if (searchPokemon === "") {
+      alert("Please enter a pokemon name.")
+    } else {
 
-        setSearchPokemon(upperCase);
-        setPokemonData(pokemon.data);
-        setSearchShow(true);
-      }
-    } catch (err) {
-      alert("No pokemon found, please try again");
+      // Lowercase search query and remove white space
+      // Capitilize the first letter of the name.
+      let searchString = searchPokemon.toLowerCase().replace(/\s+/g, '')
+      let pokemon = await API.getOnePokemon(searchString);
+      let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+
+      setSearchPokemon(upperCase);
+      setPokemonData(pokemon.data);
+      setShow("search");
     }
+
   }
 
   async function handleNumberFormSubmit(e) {
     e.preventDefault();
-    try {
-      if (searchNumber === "") {
-        alert("Please enter a number.")
-      } else {
 
-        // Lowercase search query and remove white space
-        // Capitilize the first letter of the name.
-        let pokemon = await API.getOnePokemon(searchNumber);
-        let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+    if (searchNumber === "") {
+      alert("Please enter a number.")
+    } else {
 
-        setSearchPokemon(upperCase);
-        setPokemonData(pokemon.data);
-        setSearchShow(true);
-      }
-    } catch (err) {
-      alert("No pokemon found, please try again");
+      // Lowercase search query and remove white space
+      // Capitilize the first letter of the name.
+      let pokemon = await API.getOnePokemon(searchNumber);
+      let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+
+      setSearchPokemon(upperCase);
+      setPokemonData(pokemon.data);
+      setShow("search");
     }
+
   }
 
   async function getPokemonInfo(url) {
-    try {
-      const info = await API.getPokemonData(url);
-      setPokemonData(info.data);
-      setRandomShow(true);
-    } catch (err) {
-      console.error(err);
-    }
+    const info = await API.getPokemonData(url);
+
+    setPokemonData(info.data);
+    setShow("random");
   }
 
   return (
@@ -98,16 +109,20 @@ function App() {
       <br />
       <form onSubmit={(e) => handleNumberFormSubmit(e)}>
         <label htmlFor="searchNumber">Search by Number:</label>
-        <input type="number" name="searchNumber" value={searchNumber} onChange={(e) => setSearchNumber(e.target.value)} />
+        <input type="number" min="1" max="898" name="searchNumber" value={searchNumber} onChange={(e) => setSearchNumber(e.target.value)} />
         <button type="submit">Search</button>
       </form>
-      {randomShow === true && (
+      {show === "random" && (
         <RandomPoke pokemon={randomPokemon} data={pokemonData} />
       )}
-      {searchShow === true && (
+      {show === "search" && (
         <SearchPoke pokemon={searchPokemon} data={pokemonData} />
       )}
-      <Pokedex />
+      {show === "pokedex" && (
+        <PokemonInfo data={pokeInfo} />
+
+      )}
+      <Pokedex getRangeData={getRangeData} rangePokemon={rangePokemon} pokemonRangeData={pokemonRangeData} />
     </div>
   );
 }
