@@ -5,7 +5,6 @@ export default function Pokedex({ getRangeData, pokemonRangeData, rangePokemon }
     return (
         <div>
             <div>
-                <h2>Pokedex Here</h2>
                 <button onClick={(e) => getRangeData(e, 100)}>1-100</button>
                 <button onClick={(e) => getRangeData(e, 100, 100)}>101-200</button>
                 <button onClick={(e) => getRangeData(e, 100, 200)}>201-300</button>

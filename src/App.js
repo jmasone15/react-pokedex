@@ -4,6 +4,8 @@ import RandomPoke from "./RandomPoke";
 import SearchPoke from "./SearchPoke";
 import PokemonInfo from "./PokemonInfo";
 import API from "./utils/API";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import NavBar from "./components/NavBar";
 
 function App() {
 
@@ -53,9 +55,7 @@ function App() {
   async function handleSearchFormSubmit(e) {
     e.preventDefault();
 
-    if (searchPokemon === "") {
-      alert("Please enter a pokemon name.")
-    } else {
+    if (searchNumber === "") {
 
       // Lowercase search query and remove white space
       // Capitilize the first letter of the name.
@@ -66,16 +66,8 @@ function App() {
       setSearchPokemon(upperCase);
       setPokemonData(pokemon.data);
       setShow("search");
-    }
 
-  }
-
-  async function handleNumberFormSubmit(e) {
-    e.preventDefault();
-
-    if (searchNumber === "") {
-      alert("Please enter a number.")
-    } else {
+    } else if (searchPokemon === "") {
 
       // Lowercase search query and remove white space
       // Capitilize the first letter of the name.
@@ -85,6 +77,10 @@ function App() {
       setSearchPokemon(upperCase);
       setPokemonData(pokemon.data);
       setShow("search");
+
+
+    } else if (searchNumber === "" && searchPokemon === "") {
+      alert("Please enter a valid name or number.")
     }
 
   }
@@ -97,34 +93,90 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Hello, world!</h1>
-      <button onClick={(e) => handleRandomClick(e)}>Random Pokemon</button>
-      <p>or</p>
-      <form onSubmit={(e) => handleSearchFormSubmit(e)}>
-        <label htmlFor="search">Search by Name:</label>
-        <input type="text" name="search" value={searchPokemon} onChange={(e) => setSearchPokemon(e.target.value)} />
-        <button type="submit">Search</button>
-      </form>
-      <br />
-      <form onSubmit={(e) => handleNumberFormSubmit(e)}>
-        <label htmlFor="searchNumber">Search by Number:</label>
-        <input type="number" min="1" max="898" name="searchNumber" value={searchNumber} onChange={(e) => setSearchNumber(e.target.value)} />
-        <button type="submit">Search</button>
-      </form>
-      {show === "random" && (
-        <RandomPoke pokemon={randomPokemon} data={pokemonData} />
-      )}
-      {show === "search" && (
-        <SearchPoke pokemon={searchPokemon} data={pokemonData} />
-      )}
-      {show === "pokedex" && (
-        <PokemonInfo data={pokeInfo} />
-
-      )}
-      <Pokedex getRangeData={getRangeData} rangePokemon={rangePokemon} pokemonRangeData={pokemonRangeData} />
-    </div>
+    <Container fluid style={{ backgroundColor: "#D3D3D3" }}>
+      <Row>
+        <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
+          <NavBar />
+        </Col>
+      </Row>
+      <Row>
+        <Container>
+          <Row>
+            <Col style={{ textAlign: "center" }}>
+              <h1 style={{ color: "#E5383B" }}>Pokedex Database</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Card>
+                <Form>
+                  <Form.Group>
+                    <Form.Label htmlFor="search">Search by Name:</Form.Label>
+                    <Form.Control type="text" name="search" value={searchPokemon} onChange={(e) => setSearchPokemon(e.target.value)} />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label htmlFor="searchNumber">Search by Number:</Form.Label>
+                    <Form.Control type="number" min="1" max="898" name="searchNumber" value={searchNumber} onChange={(e) => setSearchNumber(e.target.value)} />
+                  </Form.Group>
+                  <Button onClick={(e) => handleSearchFormSubmit(e)}>Search</Button>
+                  <Button onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
+                </Form>
+              </Card>
+              <br />
+            </Col>
+            <Col>
+              <Card>
+                {show === "random" && (
+                  <RandomPoke pokemon={randomPokemon} data={pokemonData} />
+                )}
+                {show === "search" && (
+                  <SearchPoke pokemon={searchPokemon} data={pokemonData} />
+                )}
+                {show === "pokedex" && (
+                  <PokemonInfo data={pokeInfo} />
+                )}
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col style={{ textAlign: "center" }}>
+              <Pokedex getRangeData={getRangeData} rangePokemon={rangePokemon} pokemonRangeData={pokemonRangeData} />
+            </Col>
+          </Row>
+        </Container>
+      </Row>
+    </Container>
   );
 }
 
 export default App;
+
+
+
+{/* <div>
+  <h1>Hello, world!</h1>
+  <button onClick={(e) => handleRandomClick(e)}>Random Pokemon</button>
+  <p>or</p>
+  <form onSubmit={(e) => handleSearchFormSubmit(e)}>
+    <label htmlFor="search">Search by Name:</label>
+    <input type="text" name="search" value={searchPokemon} onChange={(e) => setSearchPokemon(e.target.value)} />
+    <button type="submit">Search</button>
+  </form>
+  <br />
+  <form onSubmit={(e) => handleNumberFormSubmit(e)}>
+    <label htmlFor="searchNumber">Search by Number:</label>
+    <input type="number" min="1" max="898" name="searchNumber" value={searchNumber} onChange={(e) => setSearchNumber(e.target.value)} />
+    <button type="submit">Search</button>
+  </form>
+  {show === "random" && (
+    <RandomPoke pokemon={randomPokemon} data={pokemonData} />
+  )}
+  {show === "search" && (
+    <SearchPoke pokemon={searchPokemon} data={pokemonData} />
+  )}
+  {show === "pokedex" && (
+    <PokemonInfo data={pokeInfo} />
+
+  )}
+  <Pokedex getRangeData={getRangeData} rangePokemon={rangePokemon} pokemonRangeData={pokemonRangeData} />
+</div> */}
