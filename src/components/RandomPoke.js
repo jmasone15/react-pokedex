@@ -1,6 +1,16 @@
-import React from 'react'
+import React from 'react';
+import { Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 export default function RandomPoke({ pokemon, data }) {
+
+    const history = useHistory();
+
+    const changePage = (e) => {
+        e.preventDefault();
+        history.push(`/info/${pokemon}`)
+    }
+
     return (
         <div>
             <h2>{pokemon} #{data.id}</h2>
@@ -9,6 +19,7 @@ export default function RandomPoke({ pokemon, data }) {
             {data.types.map((x) => (
                 <p key={x.type.slot}>{x.type.name}</p>
             ))}
+            <Button onClick={(e) => { changePage(e) }}>Get More Info</Button>
         </div>
     )
 }
