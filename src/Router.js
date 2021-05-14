@@ -1,8 +1,17 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Pokemon from "./pages/Pokemon";
-import NavBar from "./components/NavBar";
+import Loadable from 'react-loadable';
+import Loading from "./components/Loading";
+
+const Home = Loadable({
+    loader: () => import('./pages/Home'),
+    loading: Loading,
+});
+
+const Pokemon = Loadable({
+    loader: () => import('./pages/Pokemon'),
+    loading: Loading,
+});
 
 export default function Router() {
     return (
