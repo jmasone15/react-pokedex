@@ -3,6 +3,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { useLocation } from 'react-router';
 import NavBar from '../components/NavBar';
 import API from '../utils/API';
+import PokemonInfoRes from "../components/PokemonInfoRes";
 
 export default function Pokemon() {
 
@@ -40,7 +41,7 @@ export default function Pokemon() {
                         <Container>
                             <Row>
                                 <Col>
-                                    <Card>
+                                    {/* <Card>
                                         <Card.Img variant="top" src={info.sprites.front_default}></Card.Img>
                                         <Card.Body>
                                             <Card.Title>{poke}</Card.Title>
@@ -48,7 +49,8 @@ export default function Pokemon() {
                                                 <Card.Text key={idx}>{t.type.name}</Card.Text>
                                             ))}
                                         </Card.Body>
-                                    </Card>
+                                    </Card> */}
+                                    <PokemonInfoRes data={info}/>
                                 </Col>
                             </Row>
                         </Container>
