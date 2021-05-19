@@ -41,15 +41,6 @@ export default function Pokemon() {
                         <Container>
                             <Row>
                                 <Col>
-                                    {/* <Card>
-                                        <Card.Img variant="top" src={info.sprites.front_default}></Card.Img>
-                                        <Card.Body>
-                                            <Card.Title>{poke}</Card.Title>
-                                            {info.types.map((t, idx) => (
-                                                <Card.Text key={idx}>{t.type.name}</Card.Text>
-                                            ))}
-                                        </Card.Body>
-                                    </Card> */}
                                     <PokemonInfoRes data={info}/>
                                 </Col>
                             </Row>
