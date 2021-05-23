@@ -11,9 +11,12 @@ export default function Test() {
 
     const history = useHistory();
     const [show, setShow] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
+    const [name, setName] = useState("");
+    const [num, setNum] = useState("");
 
     // Styles
-    const [config, setConfig] = useState(configs.lightConfig);
+    const [config, setConfig] = useState(configs.defaultConfig);
     const cardStyle = {
         position: "relative",
         top: "300px",
@@ -42,10 +45,47 @@ export default function Test() {
         let random = pokemon.data.results[num];
         let upperCase = random.name.charAt(0).toUpperCase() + random.name.slice(1);
 
-        // Get Data on individual pokemon with url link
+        // Send pokemon name to info page
         changePage(e, upperCase);
 
     };
+
+    const searchType = (e, type) => {
+        e.preventDefault();
+
+        if (type === "name") {
+            setSearchValue("name");
+        } else if (type === "number") {
+            setSearchValue("number");
+        }
+    };
+
+    // Function to find pokemon by search
+    async function handleSearchFormSubmit(e) {
+        e.preventDefault();
+
+        if (searchValue === "name") {
+
+            // Lowercase search query and remove white space
+            // Capitilize the first letter of the name.
+            let searchString = name.toLowerCase().replace(/\s+/g, '')
+            let pokemon = await API.getOnePokemon(searchString);
+            let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+
+            // Send pokemon name to info page
+            changePage(e, upperCase);
+
+        } else if (searchValue === "number") {
+
+            // Lowercase search query and remove white space
+            // Capitilize the first letter of the name.
+            let pokemon = await API.getOnePokemon(num);
+            let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+
+            // Send pokemon name to info page
+            changePage(e, upperCase);
+        }
+    }
 
     // Modal Functions
     const handleButtonClick = () => {
@@ -61,7 +101,7 @@ export default function Test() {
     return (
         <div>
             <Wrapper config={config} setConfig={setConfig} />
-            <NavBar light={true} />
+            <NavBar theme="default" />
             <Container fluid>
                 <Row className="justify-content-md-center">
                     <Col md="auto" style={{ textAlign: "center" }}>
@@ -79,24 +119,24 @@ export default function Test() {
                         </Jumbotron>
                         <Modal show={show} onHide={() => handleButtonClick()}>
                             <Modal.Header style={{ backgroundColor: "#6c757d" }} >
-                                <Modal.Title style={{ color: "#fff" }}>Pokemon Search</Modal.Title>
+                                <Modal.Title className="pixelText" style={{ color: "#fff" }}>Pokemon Search</Modal.Title>
                             </Modal.Header>
-                            <form>
+                            <form onSubmit={(e) => handleSearchFormSubmit(e)}>
                                 <Modal.Body style={{ backgroundColor: "#6c757d", color: "#fff" }}>
                                     <Form>
                                         <Row>
                                             <Col style={{ borderRight: "1px solid" }}>
-                                                <Form.Label style={{ marginRight: "10px" }}><u>By Name</u></Form.Label>
-                                                <Form.Control type="text" placeholder="Pikachu" />
+                                                <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Name</u></Form.Label>
+                                                <Form.Control onClick={(e) => searchType(e, "name")} value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Name" />
                                             </Col>
                                             <Col>
-                                                <Form.Label style={{ marginRight: "10px" }}><u>By Number</u></Form.Label>
-                                                <Form.Control type="text" placeholder="44" />
+                                                <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Number</u></Form.Label>
+                                                <Form.Control onClick={(e) => searchType(e, "number")} value={num} onChange={(e) => setNum(e.target.value)} type="text" placeholder="Number" />
                                             </Col>
                                         </Row>
                                     </Form>
                                 </Modal.Body>
-                                <Modal.Footer style={{ backgroundColor: "#6c757d" }}>
+                                <Modal.Footer className="defaultText" style={{ backgroundColor: "#6c757d" }}>
                                     <Button type="submit" variant="danger">Search!</Button>
                                 </Modal.Footer>
                             </form>

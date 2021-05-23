@@ -1,23 +1,17 @@
 import React from 'react'
 import { Navbar } from 'react-bootstrap'
 
-export default function NavBar({ light }) {
+export default function NavBar({ theme }) {
 
-    const lightStyle = { backgroundColor: "#6c757d" };
-    const darkStyle = { backgroundColor: "#E5383B" };
+    const defaultStyle = { backgroundColor: "#E5383B" };
 
     return (
-        <>
-            {light === false && (
-                <Navbar variant="dark" expand="lg0" className="defaultText" style={darkStyle}>
-                    <Navbar.Brand href="/">React Pokedex</Navbar.Brand>
-                </Navbar>
-            )}
-            {light === true && (
-                <Navbar variant="dark" expand="lg0" className="defaultText" style={lightStyle}>
-                    <Navbar.Brand href="/">React Pokedex</Navbar.Brand>
-                </Navbar>
-            )}
-        </>
+        <Navbar variant="dark" expand="lg0" className="defaultText" style={defaultStyle}>
+            <Navbar.Brand href="/">React Pokedex</Navbar.Brand>
+        </Navbar>
     )
 }
+
+// Red #E5383B
+// Dark Grey #495057
+// Light Grey #6c757d
