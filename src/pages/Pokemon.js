@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useLocation } from 'react-router';
 import NavBar from '../components/NavBar';
 import API from '../utils/API';
@@ -12,7 +12,6 @@ export default function Pokemon() {
 
     const search = useLocation();
     const poke = search.pathname.slice(6);
-    console.log(poke);
 
     const getPokeData = (p) => {
         let searchString = p.toLowerCase().replace(/\s+/g, '')
@@ -41,7 +40,7 @@ export default function Pokemon() {
                         <Container>
                             <Row>
                                 <Col>
-                                    <PokemonInfoRes data={info}/>
+                                    <PokemonInfoRes data={info} />
                                 </Col>
                             </Row>
                         </Container>

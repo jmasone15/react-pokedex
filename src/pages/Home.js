@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Pokedex from "../components/Pokedex";
 import RandomPoke from "../components/RandomPoke";
 import SearchPoke from "../components/SearchPoke";
@@ -16,14 +16,10 @@ export default function Home() {
     const [rangePokemon, setRangePokemon] = useState([]);
     const [pokeInfo, setPokeInfo] = useState({});
     const [show, setShow] = useState("");
-    const [allShow, setAllShow] = useState(false);
-
-    useEffect(() => {
-        getRangeData(100);
-    }, []);
 
     // Function to find all pokemon in a range
-    async function getRangeData(limit, offset) {
+    async function getRangeData(e, limit, offset) {
+        e.preventDefault();
         setRangePokemon([]);
 
         const results = await API.getPokemonRange(limit, offset);
@@ -36,7 +32,6 @@ export default function Home() {
         API.getPokemonData(url).then((res) => {
             setPokeInfo(res.data);
             setShow("pokedex");
-            setAllShow(true);
         });
     }
 
@@ -77,7 +72,6 @@ export default function Home() {
                 setSearchPokemon(upperCase);
                 setPokemonData(pokemon.data);
                 setShow("search");
-                setAllShow(true);
             }
 
         } else if (searchPokemon === "") {
@@ -93,7 +87,6 @@ export default function Home() {
                 setSearchPokemon(upperCase);
                 setPokemonData(pokemon.data);
                 setShow("search");
-                setAllShow(true);
             }
 
         } else if (searchNumber === "" && searchPokemon === "") {
@@ -108,7 +101,6 @@ export default function Home() {
 
         setPokemonData(info.data);
         setShow("random");
-        setAllShow(true);
     }
 
     return (
@@ -120,6 +112,11 @@ export default function Home() {
             </Row>
             <Row>
                 <Container>
+                    <Row>
+                        <Col style={{ textAlign: "center" }}>
+                            <h1 style={{ color: "#E5383B" }}>Pokedex Database</h1>
+                        </Col>
+                    </Row>
                     <Row>
                         <Col>
                             <Card>
@@ -138,21 +135,19 @@ export default function Home() {
                             </Card>
                             <br />
                         </Col>
-                        {allShow === true && (
-                            <Col>
-                                <Card>
-                                    {show === "random" && (
-                                        <RandomPoke pokemon={randomPokemon} data={pokemonData} />
-                                    )}
-                                    {show === "search" && (
-                                        <SearchPoke pokemon={searchPokemon} data={pokemonData} />
-                                    )}
-                                    {show === "pokedex" && (
-                                        <PokemonInfo data={pokeInfo} />
-                                    )}
-                                </Card>
-                            </Col>
-                        )}
+                        <Col>
+                            <Card>
+                                {show === "random" && (
+                                    <RandomPoke pokemon={randomPokemon} data={pokemonData} />
+                                )}
+                                {show === "search" && (
+                                    <SearchPoke pokemon={searchPokemon} data={pokemonData} />
+                                )}
+                                {show === "pokedex" && (
+                                    <PokemonInfo data={pokeInfo} />
+                                )}
+                            </Card>
+                        </Col>
                     </Row>
                     <Row>
                         <Col>
