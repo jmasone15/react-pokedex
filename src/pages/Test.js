@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Button, Jumbotron, Modal, Form } from 'react-bootstrap';
+import React, { useState, useRef } from 'react';
+import { Container, Row, Col, Button, Jumbotron, Modal, Form, Card } from 'react-bootstrap';
 import NavBar from '../components/NavBar';
 import Wrapper from "../components/Wrapper";
 import configs from "../utils/backgroundConfig";
@@ -10,7 +10,9 @@ import "../style.css";
 export default function Test() {
 
     const history = useHistory();
+    const pokedexRef = useRef();
     const [show, setShow] = useState(false);
+    const [pokedexShow, setPokedexShow] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [name, setName] = useState("");
     const [num, setNum] = useState("");
@@ -26,6 +28,12 @@ export default function Test() {
     const buttonStyle = {
         margin: "10px"
     }
+    const pokedexStyle = {
+        position: "relative",
+        top: "2000px",
+        width: "auto",
+        backgroundColor: "#6c757d"
+    };
 
     const changePage = (e, poke) => {
         e.preventDefault();
@@ -48,6 +56,16 @@ export default function Test() {
         // Send pokemon name to info page
         changePage(e, upperCase);
 
+    };
+
+    const handlePokedexClick = (e) => {
+        e.preventDefault();
+        setPokedexShow(true);
+        scrollFunction();
+    };
+
+    const scrollFunction = () => {
+        pokedexRef.current.scrollIntoView({ behavior: 'smooth' })
     };
 
     const searchType = (e, type) => {
@@ -111,7 +129,7 @@ export default function Test() {
                                 <h5 className="pixelText" style={{ color: "white" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h5>
                                 <br />
                                 <div>
-                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg">Full Pokedex</Button>
+                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>
                                     <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
                                     <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
                                 </div>
@@ -141,6 +159,15 @@ export default function Test() {
                                 </Modal.Footer>
                             </form>
                         </Modal>
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center">
+                    <Col md="auto" style={{ textAlign: "center" }}>
+                        <Card style={pokedexStyle}>
+                            <Container>
+                                <h1 ref={pokedexRef} >Test</h1>
+                            </Container>
+                        </Card>
                     </Col>
                 </Row>
             </Container>
