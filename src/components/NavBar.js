@@ -9,12 +9,12 @@ export default function NavBar({ light }) {
     return (
         <>
             {light === false && (
-                <Navbar variant="dark" expand="lg0" style={darkStyle}>
+                <Navbar variant="dark" expand="lg0" className="defaultText" style={darkStyle}>
                     <Navbar.Brand href="/">React Pokedex</Navbar.Brand>
                 </Navbar>
             )}
             {light === true && (
-                <Navbar variant="dark" expand="lg0" style={lightStyle}>
+                <Navbar variant="dark" expand="lg0" className="defaultText" style={lightStyle}>
                     <Navbar.Brand href="/">React Pokedex</Navbar.Brand>
                 </Navbar>
             )}

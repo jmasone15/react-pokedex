@@ -5,6 +5,7 @@ import Wrapper from "../components/Wrapper";
 import configs from "../utils/backgroundConfig";
 import { useHistory } from "react-router-dom";
 import API from "../utils/API";
+import "../style.css";
 
 export default function Test() {
 
@@ -66,12 +67,13 @@ export default function Test() {
                     <Col md="auto" style={{ textAlign: "center" }}>
                         <Jumbotron style={cardStyle}>
                             <Container>
-                                <h1 style={{ color: "#fff" }}>Pokedex</h1>
-                                <h5 style={{ color: "#fff" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h5>
+                                <h1 className="pixelText" style={{ color: "white" }}>Pokedex</h1>
+                                <h5 className="pixelText" style={{ color: "white" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h5>
+                                <br />
                                 <div>
-                                    <Button style={buttonStyle} type="button" variant="outline-danger" size="lg">Full Pokedex</Button>
-                                    <Button style={buttonStyle} type="button" variant="outline-danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
-                                    <Button style={buttonStyle} type="button" variant="outline-danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
+                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg">Full Pokedex</Button>
+                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
+                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
                                 </div>
                             </Container>
                         </Jumbotron>
@@ -95,13 +97,13 @@ export default function Test() {
                                     </Form>
                                 </Modal.Body>
                                 <Modal.Footer style={{ backgroundColor: "#6c757d" }}>
-                                    <Button type="submit" variant="outline-danger">Search!</Button>
+                                    <Button type="submit" variant="danger">Search!</Button>
                                 </Modal.Footer>
                             </form>
                         </Modal>
                     </Col>
                 </Row>
             </Container>
-        </div>
+        </div >
     )
 }
