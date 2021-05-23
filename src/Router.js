@@ -13,15 +13,23 @@ const Pokemon = Loadable({
     loading: Loading,
 });
 
+const Test = Loadable({
+    loader: () => import('./pages/Test'),
+    loading: Loading
+});
+
 export default function Router() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/react-pokedex">
+                <Route exact path="/" >
                     <Home />
                 </Route>
-                <Route>
-                    <Pokemon path="/info" />
+                <Route path="/info">
+                    <Pokemon />
+                </Route>
+                <Route path="/test">
+                    <Test />
                 </Route>
             </Switch>
         </BrowserRouter>
