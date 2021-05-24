@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Container, Row, Col, Button, Jumbotron, Modal, Form, Card } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Button, Jumbotron, Modal, Form } from 'react-bootstrap';
 import NavBar from '../components/NavBar';
 import Wrapper from "../components/Wrapper";
 import configs from "../utils/backgroundConfig";
@@ -10,9 +10,7 @@ import "../style.css";
 export default function Test() {
 
     const history = useHistory();
-    const pokedexRef = useRef();
     const [show, setShow] = useState(false);
-    const [pokedexShow, setPokedexShow] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [name, setName] = useState("");
     const [num, setNum] = useState("");
@@ -27,18 +25,12 @@ export default function Test() {
     };
     const buttonStyle = {
         margin: "10px"
-    }
-    const pokedexStyle = {
-        position: "relative",
-        top: "2000px",
-        width: "auto",
-        backgroundColor: "#6c757d"
     };
 
     const changePage = (e, poke) => {
         e.preventDefault();
         history.push(`/info/${poke}`);
-    }
+    };
 
     // Function to find random pokemon
     async function handleRandomClick(e) {
@@ -58,16 +50,6 @@ export default function Test() {
 
     };
 
-    const handlePokedexClick = (e) => {
-        e.preventDefault();
-        setPokedexShow(true);
-        scrollFunction();
-    };
-
-    const scrollFunction = () => {
-        pokedexRef.current.scrollIntoView({ behavior: 'smooth' })
-    };
-
     const searchType = (e, type) => {
         e.preventDefault();
 
@@ -76,6 +58,11 @@ export default function Test() {
         } else if (type === "number") {
             setSearchValue("number");
         }
+    };
+
+    const handlePokedexClick = (e) => {
+        e.preventDefault();
+        history.push("/pokedex");
     };
 
     // Function to find pokemon by search
@@ -120,7 +107,7 @@ export default function Test() {
         <div>
             <Wrapper config={config} setConfig={setConfig} />
             <NavBar theme="default" />
-            <Container fluid>
+            <Container>
                 <Row className="justify-content-md-center">
                     <Col md="auto" style={{ textAlign: "center" }}>
                         <Jumbotron style={cardStyle}>
@@ -129,47 +116,38 @@ export default function Test() {
                                 <h5 className="pixelText" style={{ color: "white" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h5>
                                 <br />
                                 <div>
-                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>
-                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
-                                    <Button className="defaultText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
+                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>
+                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
+                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
                                 </div>
                             </Container>
                         </Jumbotron>
-                        <Modal show={show} onHide={() => handleButtonClick()}>
-                            <Modal.Header style={{ backgroundColor: "#6c757d" }} >
-                                <Modal.Title className="pixelText" style={{ color: "#fff" }}>Pokemon Search</Modal.Title>
-                            </Modal.Header>
-                            <form onSubmit={(e) => handleSearchFormSubmit(e)}>
-                                <Modal.Body style={{ backgroundColor: "#6c757d", color: "#fff" }}>
-                                    <Form>
-                                        <Row>
-                                            <Col style={{ borderRight: "1px solid" }}>
-                                                <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Name</u></Form.Label>
-                                                <Form.Control onClick={(e) => searchType(e, "name")} value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Name" />
-                                            </Col>
-                                            <Col>
-                                                <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Number</u></Form.Label>
-                                                <Form.Control onClick={(e) => searchType(e, "number")} value={num} onChange={(e) => setNum(e.target.value)} type="text" placeholder="Number" />
-                                            </Col>
-                                        </Row>
-                                    </Form>
-                                </Modal.Body>
-                                <Modal.Footer className="defaultText" style={{ backgroundColor: "#6c757d" }}>
-                                    <Button type="submit" variant="danger">Search!</Button>
-                                </Modal.Footer>
-                            </form>
-                        </Modal>
                     </Col>
                 </Row>
-                <Row className="justify-content-md-center">
-                    <Col md="auto" style={{ textAlign: "center" }}>
-                        <Card style={pokedexStyle}>
-                            <Container>
-                                <h1 ref={pokedexRef} >Test</h1>
-                            </Container>
-                        </Card>
-                    </Col>
-                </Row>
+                <Modal show={show} onHide={() => handleButtonClick()}>
+                    <Modal.Header style={{ backgroundColor: "#6c757d" }} >
+                        <Modal.Title className="pixelText" style={{ color: "#fff" }}>Pokemon Search</Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={(e) => handleSearchFormSubmit(e)}>
+                        <Modal.Body style={{ backgroundColor: "#6c757d", color: "#fff" }}>
+                            <Form>
+                                <Row>
+                                    <Col style={{ borderRight: "1px solid" }}>
+                                        <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Name</u></Form.Label>
+                                        <Form.Control onClick={(e) => searchType(e, "name")} value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Name" />
+                                    </Col>
+                                    <Col>
+                                        <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Number</u></Form.Label>
+                                        <Form.Control onClick={(e) => searchType(e, "number")} value={num} onChange={(e) => setNum(e.target.value)} type="text" placeholder="Number" />
+                                    </Col>
+                                </Row>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer className="defaultText" style={{ backgroundColor: "#6c757d" }}>
+                            <Button type="submit" variant="danger">Search!</Button>
+                        </Modal.Footer>
+                    </form>
+                </Modal>
             </Container>
         </div >
     )
