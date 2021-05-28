@@ -2,9 +2,6 @@ import React from 'react'
 import { Container, Jumbotron } from 'react-bootstrap'
 
 export default function Description({ cardStyle, info }) {
-
-    console.log(info);
-
     return (
         <Jumbotron style={cardStyle}>
             <h3 className="pixelText"><u>Description</u></h3>

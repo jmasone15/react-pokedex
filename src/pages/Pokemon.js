@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Jumbotron, Badge, Image, Table } from 'react-bootstrap';
+import { Container, Row, Col, Jumbotron, Image } from 'react-bootstrap';
 import { useLocation } from 'react-router';
 import NavBar from '../components/NavBar';
 import API from '../utils/API';
@@ -19,7 +19,9 @@ export default function Pokemon() {
     const [pokeType, setPokeType] = useState("");
     const [pokeType2, setPokeType2] = useState("");
     const [description, setDescription] = useState({});
-    const [evo, setEvo] = useState({});
+    const [evo1, setEvo1] = useState("empty");
+    const [evo2, setEvo2] = useState("empty");
+    const [evo3, setEvo3] = useState("empty");
 
     const search = useLocation();
     const poke = search.pathname.slice(6);
@@ -41,7 +43,6 @@ export default function Pokemon() {
         let searchString = p.toLowerCase().replace(/\s+/g, '')
         API.getOnePokemon(searchString).then((res) => {
             setInfo(res.data);
-            console.log(res.data)
             if (res.data.name !== undefined) {
                 setPokeName(res.data.name.charAt(0).toUpperCase() + res.data.name.slice(1))
                 if (res.data.types.length > 1) {
@@ -60,7 +61,6 @@ export default function Pokemon() {
     const getPokeDescription = (url) => {
         API.getPokemonData(url).then((res) => {
             setDescription(res.data.flavor_text_entries[0].flavor_text);
-            console.log(res.data);
             getPokeEvolution(res.data.evolution_chain.url);
         });
     };
@@ -68,7 +68,31 @@ export default function Pokemon() {
     const getPokeEvolution = (url) => {
         API.getPokemonData(url).then((res) => {
             console.log(res.data);
-            setShow(true);
+
+            if (res.data.chain.species.name !== undefined) {
+                getEvoData(res.data.chain.species.name, 0);
+            }
+            if (res.data.chain.evolves_to[0] !== undefined) {
+                getEvoData(res.data.chain.evolves_to[0].species.name, 1);
+            }
+            if (res.data.chain.evolves_to[0] !== undefined && res.data.chain.evolves_to[0].evolves_to[0] !== undefined) {
+                getEvoData(res.data.chain.evolves_to[0].evolves_to[0].species.name)
+            }
+        });
+    };
+
+    const getEvoData = (poke, num) => {
+        API.getOnePokemon(poke).then((res) => {
+            if (num === 0) {
+                setEvo1(res.data);
+                setShow(true);
+            } else if (num === 1) {
+                setEvo2(res.data);
+                setShow(true);
+            } else {
+                setEvo3(res.data);
+                setShow(true);
+            }
         });
     };
 
@@ -116,7 +140,7 @@ export default function Pokemon() {
                                     <Description info={description} cardStyle={cardStyle} />
                                 </Row>
                                 <Row className="justify-content-md-center">
-                                    <EvoChain info={evo} cardStyle={cardStyle} />
+                                    <EvoChain cardStyle={cardStyle} evo1={evo1} evo2={evo2} evo3={evo3} />
                                 </Row>
                             </Col>
                         </Row>
@@ -126,6 +150,4 @@ export default function Pokemon() {
         </div >
     )
 }
-
-// <img src={info.sprites.front_default} alt={info.name} />
 
