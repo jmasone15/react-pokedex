@@ -18,6 +18,8 @@ export default function Pokemon() {
     const [pokeName, setPokeName] = useState("");
     const [pokeType, setPokeType] = useState("");
     const [pokeType2, setPokeType2] = useState("");
+    const [description, setDescription] = useState({});
+    const [evo, setEvo] = useState({});
 
     const search = useLocation();
     const poke = search.pathname.slice(6);
@@ -31,7 +33,8 @@ export default function Pokemon() {
 
     const cardStyle = {
         backgroundColor: "#6c757d",
-        color: "white"
+        color: "white",
+        textAlign: "center"
     }
 
     const getPokeData = (p) => {
@@ -56,6 +59,7 @@ export default function Pokemon() {
 
     const getPokeDescription = (url) => {
         API.getPokemonData(url).then((res) => {
+            setDescription(res.data.flavor_text_entries[0].flavor_text);
             console.log(res.data);
             getPokeEvolution(res.data.evolution_chain.url);
         });
@@ -65,8 +69,8 @@ export default function Pokemon() {
         API.getPokemonData(url).then((res) => {
             console.log(res.data);
             setShow(true);
-        })
-    }
+        });
+    };
 
     useEffect(() => {
         getPokeData(poke);
@@ -104,22 +108,21 @@ export default function Pokemon() {
                     </Container>
                     <Container style={{ marginTop: "100px" }}>
                         <Row className="justify-content-md-center">
-                            <Col md="auto">
+                            <Col md={4}>
                                 <StatsTable info={info} cardStyle={cardStyle} />
                             </Col>
-                            <Col md="auto">
-                                <Description cardStyle={cardStyle} />
-                            </Col>
-                        </Row>
-                        <Row className="justify-content-md-center">
-                            <Col lg="auto">
-                                <EvoChain cardStyle={cardStyle} />
+                            <Col md={8}>
+                                <Row className="justify-content-md-center">
+                                    <Description info={description} cardStyle={cardStyle} />
+                                </Row>
+                                <Row className="justify-content-md-center">
+                                    <EvoChain info={evo} cardStyle={cardStyle} />
+                                </Row>
                             </Col>
                         </Row>
                     </Container>
                 </Container>
-            )
-            }
+            )}
         </div >
     )
 }
