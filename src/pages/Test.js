@@ -113,7 +113,7 @@ export default function Test() {
                         <Jumbotron style={cardStyle}>
                             <Container>
                                 <h1 className="pixelText" style={{ color: "white" }}>Pokedex</h1>
-                                <h5 className="pixelText" style={{ color: "white" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h5>
+                                <h6 className="pixelText" style={{ color: "white" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h6>
                                 <br />
                                 <div>
                                     <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>

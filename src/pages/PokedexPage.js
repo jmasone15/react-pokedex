@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import API from "../utils/API";
 import "../style.css";
@@ -9,19 +9,19 @@ import configs from "../utils/backgroundConfig";
 
 export default function PokedexPage() {
 
-    const [pokedexShow, setPokedexShow] = useState(false);
     const [rangePokemon, setRangePokemon] = useState([]);
     const [config, setConfig] = useState(configs.defaultConfig);
     const history = useHistory();
 
     // Function to find all pokemon in a range
     async function getRangeData(e, limit, offset) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         setRangePokemon([]);
 
         const results = await API.getPokemonRange(limit, offset);
         setRangePokemon(results.data.results);
-        setPokedexShow(true);
     };
 
     const changePage = (e, poke) => {
@@ -31,11 +31,15 @@ export default function PokedexPage() {
 
     const pokedexStyle = {
         position: "relative",
-        top: "300px",
+        top: "200px",
         width: "auto",
         backgroundColor: "#6c757d",
         padding: "50px"
     };
+
+    useEffect((e) => {
+        getRangeData(e, 100)
+    }, [])
 
     return (
         <>
@@ -48,7 +52,7 @@ export default function PokedexPage() {
                             <Container>
                                 <Row>
                                     <Col>
-                                        <h1 className="pixelText" style={{ color: "white" }}><u>Pokemon</u></h1>
+                                        <h1 className="pixelText" style={{ color: "white" }}><u>Pokedex</u></h1>
                                         <DropdownButton drop="down" title="Pokedex Range" variant="danger" id="dropdown-basic-button">
                                             <Dropdown.Item onClick={(e) => getRangeData(e, 100)} eventKey="1">1-100</Dropdown.Item>
                                             <Dropdown.Item onClick={(e) => getRangeData(e, 100, 100)} eventKey="101">101-200</Dropdown.Item>
@@ -62,22 +66,20 @@ export default function PokedexPage() {
                                         </DropdownButton>
                                     </Col>
                                 </Row>
-                                <Row style={{ margin: "50px" }}>
+                                <Row className="defaultText" style={{ margin: "50px", height: "300px", overflowY: "scroll" }}>
                                     <Col>
                                         <Table>
                                             <thead>
-                                                <tr>
-                                                    <th>#</th>
+                                                <tr style={{ color: "white" }}>
                                                     <th>Name</th>
-                                                    <th>More Info</th>
+                                                    <th>Info</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {rangePokemon.map((poke, index) => (
                                                     <tr key={index}>
-                                                        <td style={{ color: "white" }}>{index + 1}</td>
-                                                        <td style={{ color: "white" }}>{poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}</td>
-                                                        <td><Button onClick={(e) => changePage(e, poke.name)}>More Info</Button></td>
+                                                        <td style={{ color: "white" }}><b>{poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}</b></td>
+                                                        <td><Button variant="danger" onClick={(e) => changePage(e, poke.name)}>More Info</Button></td>
                                                     </tr>
                                                 ))}
                                             </tbody>
