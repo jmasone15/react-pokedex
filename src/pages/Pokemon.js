@@ -7,6 +7,9 @@ import Wrapper from "../components/Wrapper";
 import configs from "../utils/backgroundConfig";
 import "../style.css";
 import TypeBadge from '../components/TypeBadge';
+import StatsTable from '../components/StatsTable';
+import Description from '../components/Description';
+import EvoChain from '../components/EvoChain';
 
 export default function Pokemon() {
 
@@ -40,17 +43,30 @@ export default function Pokemon() {
                 setPokeName(res.data.name.charAt(0).toUpperCase() + res.data.name.slice(1))
                 if (res.data.types.length > 1) {
                     setPokeType(res.data.types[0].type.name.charAt(0).toUpperCase() + res.data.types[0].type.name.slice(1));
-                    setPokeType2(res.data.types[1].type.name.charAt(0).toUpperCase() + res.data.types[0].type.name.slice(1));
+                    setPokeType2(res.data.types[1].type.name.charAt(0).toUpperCase() + res.data.types[1].type.name.slice(1));
                 } else {
                     setPokeType(res.data.types[0].type.name.charAt(0).toUpperCase() + res.data.types[0].type.name.slice(1));
                 }
-                setShow(true);
+                getPokeDescription(res.data.species.url);
             } else {
                 setShow(false);
             }
         });
-    }
+    };
 
+    const getPokeDescription = (url) => {
+        API.getPokemonData(url).then((res) => {
+            console.log(res.data);
+            getPokeEvolution(res.data.evolution_chain.url);
+        });
+    };
+
+    const getPokeEvolution = (url) => {
+        API.getPokemonData(url).then((res) => {
+            console.log(res.data);
+            setShow(true);
+        })
+    }
 
     useEffect(() => {
         getPokeData(poke);
@@ -62,7 +78,7 @@ export default function Pokemon() {
             <NavBar theme="default" />
             {show === true && (
                 <Container>
-                    <Container style={{ marginTop: "100px" }}>
+                    <Container style={{ marginTop: "50px" }}>
                         <Row className="justify-content-md-center">
                             <Col md="auto" style={{ textAlign: "center" }}>
                                 <Container>
@@ -76,7 +92,7 @@ export default function Pokemon() {
                                             </Jumbotron>
                                         </Col>
                                     </Row>
-                                    <Row className="justify-content-md-center">
+                                    <Row className="justify-content-md-center" style={{ marginTop: "50px" }}>
                                         <Col>
                                             <Image src={info.sprites.front_default} style={{ height: "200px", width: "200px" }} alt={info.name} rounded />
                                             <Image src={info.sprites.back_default} style={{ height: "200px", width: "200px" }} alt={info.name} rounded />
@@ -86,40 +102,18 @@ export default function Pokemon() {
                             </Col>
                         </Row>
                     </Container>
-                    <Container>
-                        <Row>
+                    <Container style={{ marginTop: "100px" }}>
+                        <Row className="justify-content-md-center">
                             <Col md="auto">
-                                <Jumbotron style={cardStyle}>
-                                    <Container style={{ textAlign: "center" }}>
-                                        <h3 className="pixelText">Base Stats</h3>
-                                        <Table style={{ color: "white" }}>
-                                            <tr>
-                                                <th><b>HP:</b></th>
-                                                <th>{info.stats[0].base_stat}</th>
-                                            </tr>
-                                            <tr>
-                                                <th><b>Attack:</b></th>
-                                                <th>{info.stats[1].base_stat}</th>
-                                            </tr>
-                                            <tr>
-                                                <th><b>Defense:</b></th>
-                                                <th>{info.stats[2].base_stat}</th>
-                                            </tr>
-                                            <tr>
-                                                <th><b>Special-Attack:</b></th>
-                                                <th>{info.stats[3].base_stat}</th>
-                                            </tr>
-                                            <tr>
-                                                <th><b>Special-Defense:</b></th>
-                                                <th>{info.stats[4].base_stat}</th>
-                                            </tr>
-                                            <tr>
-                                                <th><b>Speed</b></th>
-                                                <th>{info.stats[5].base_stat}</th>
-                                            </tr>
-                                        </Table>
-                                    </Container>
-                                </Jumbotron>
+                                <StatsTable info={info} cardStyle={cardStyle} />
+                            </Col>
+                            <Col md="auto">
+                                <Description cardStyle={cardStyle} />
+                            </Col>
+                        </Row>
+                        <Row className="justify-content-md-center">
+                            <Col lg="auto">
+                                <EvoChain cardStyle={cardStyle} />
                             </Col>
                         </Row>
                     </Container>
