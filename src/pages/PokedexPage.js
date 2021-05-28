@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import API from "../utils/API";
 import "../style.css";
-import { Container, Row, Col, Button, Card, Table, Tab, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Table, DropdownButton, Dropdown } from 'react-bootstrap';
 import NavBar from '../components/NavBar';
 import Wrapper from "../components/Wrapper";
 import configs from "../utils/backgroundConfig";
