@@ -1,39 +1,36 @@
 import React, { useState } from 'react';
-import Pokedex from "../components/Pokedex";
-import RandomPoke from "../components/RandomPoke";
-import SearchPoke from "../components/SearchPoke";
-import PokemonInfo from "../components/PokemonInfo";
+import { Container, Row, Col, Button, Jumbotron, Modal, Form, Navbar } from 'react-bootstrap';
+import NavBar from '../components/NavBar';
+import Wrapper from "../components/Wrapper";
+import configs from "../utils/backgroundConfig";
+import { useHistory } from "react-router-dom";
 import API from "../utils/API";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import NavBar from "../components/NavBar";
+import "../style.css";
 
 export default function Home() {
 
-    const [randomPokemon, setRandomPokemon] = useState("");
-    const [searchPokemon, setSearchPokemon] = useState("");
-    const [searchNumber, setSearchNumber] = useState("");
-    const [pokemonData, setPokemonData] = useState({});
-    const [rangePokemon, setRangePokemon] = useState([]);
-    const [pokeInfo, setPokeInfo] = useState({});
-    const [show, setShow] = useState("");
+    const history = useHistory();
+    const [show, setShow] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
+    const [name, setName] = useState("");
+    const [num, setNum] = useState("");
 
-    // Function to find all pokemon in a range
-    async function getRangeData(e, limit, offset) {
+    // Styles
+    const [config, setConfig] = useState(configs.defaultConfig);
+    const cardStyle = {
+        position: "relative",
+        top: "300px",
+        width: "auto",
+        backgroundColor: "#6c757d"
+    };
+    const buttonStyle = {
+        margin: "10px"
+    };
+
+    const changePage = (e, poke) => {
         e.preventDefault();
-        setRangePokemon([]);
-
-        const results = await API.getPokemonRange(limit, offset);
-        setRangePokemon(results.data.results);
-    }
-
-    function pokemonRangeData(e, url) {
-        e.preventDefault();
-
-        API.getPokemonData(url).then((res) => {
-            setPokeInfo(res.data);
-            setShow("pokedex");
-        });
-    }
+        history.push(`/info/${poke}`);
+    };
 
     // Function to find random pokemon
     async function handleRandomClick(e) {
@@ -48,114 +45,117 @@ export default function Home() {
         let random = pokemon.data.results[num];
         let upperCase = random.name.charAt(0).toUpperCase() + random.name.slice(1);
 
-        // Get Data on individual pokemon with url link
-        setRandomPokemon(upperCase);
-        getPokemonInfo(random.url);
+        // Send pokemon name to info page
+        changePage(e, upperCase);
 
-    }
+    };
+
+    const searchType = (e, type) => {
+        e.preventDefault();
+
+        if (type === "name") {
+            setSearchValue("name");
+        } else if (type === "number") {
+            setSearchValue("number");
+        }
+    };
+
+    const handlePokedexClick = (e) => {
+        e.preventDefault();
+        history.push("/pokedex");
+    };
 
     // Function to find pokemon by search
     async function handleSearchFormSubmit(e) {
         e.preventDefault();
 
-        if (searchNumber === "") {
+        if (searchValue === "name") {
 
             // Lowercase search query and remove white space
             // Capitilize the first letter of the name.
-            let searchString = searchPokemon.toLowerCase().replace(/\s+/g, '')
+            let searchString = name.toLowerCase().replace(/\s+/g, '')
             let pokemon = await API.getOnePokemon(searchString);
-            if (pokemon === {}) {
-                alert("No results found");
-            } else {
-                let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+            let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
 
-                setSearchPokemon(upperCase);
-                setPokemonData(pokemon.data);
-                setShow("search");
-            }
+            // Send pokemon name to info page
+            changePage(e, upperCase);
 
-        } else if (searchPokemon === "") {
+        } else if (searchValue === "number") {
 
             // Lowercase search query and remove white space
             // Capitilize the first letter of the name.
-            let pokemon = await API.getOnePokemon(searchNumber);
-            if (pokemon === {}) {
-                alert("No results found");
-            } else {
-                let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
+            let pokemon = await API.getOnePokemon(num);
+            let upperCase = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.slice(1);
 
-                setSearchPokemon(upperCase);
-                setPokemonData(pokemon.data);
-                setShow("search");
-            }
-
-        } else if (searchNumber === "" && searchPokemon === "") {
-            alert("Please enter a valid name or number.")
+            // Send pokemon name to info page
+            changePage(e, upperCase);
         }
-
     }
 
-    // Function to get individual pokemon info.
-    async function getPokemonInfo(url) {
-        const info = await API.getPokemonData(url);
+    // Modal Functions
+    const handleButtonClick = () => {
 
-        setPokemonData(info.data);
-        setShow("random");
+        if (show === false) {
+            setShow(true);
+        } else {
+            setShow(false);
+        }
     }
+
 
     return (
-        <Container fluid style={{ backgroundColor: "#D3D3D3" }}>
-            <Row>
-                <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <NavBar />
-                </Col>
-            </Row>
-            <Row>
-                <Container>
-                    <Row>
-                        <Col style={{ textAlign: "center" }}>
-                            <h1 style={{ color: "#E5383B" }}>Pokedex Database</h1>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Card>
-                                <Form>
-                                    <Form.Group>
-                                        <Form.Label htmlFor="search">Search by Name:</Form.Label>
-                                        <Form.Control type="text" name="search" value={searchPokemon} onChange={(e) => setSearchPokemon(e.target.value)} />
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Label htmlFor="searchNumber">Search by Number:</Form.Label>
-                                        <Form.Control type="number" min="1" max="898" name="searchNumber" value={searchNumber} onChange={(e) => setSearchNumber(e.target.value)} />
-                                    </Form.Group>
-                                    <Button onClick={(e) => handleSearchFormSubmit(e)}>Search</Button>
-                                    <Button onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
-                                </Form>
-                            </Card>
-                            <br />
-                        </Col>
-                        <Col>
-                            <Card>
-                                {show === "random" && (
-                                    <RandomPoke pokemon={randomPokemon} data={pokemonData} />
-                                )}
-                                {show === "search" && (
-                                    <SearchPoke pokemon={searchPokemon} data={pokemonData} />
-                                )}
-                                {show === "pokedex" && (
-                                    <PokemonInfo data={pokeInfo} />
-                                )}
-                            </Card>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Pokedex getRangeData={getRangeData} rangePokemon={rangePokemon} pokemonRangeData={pokemonRangeData} />
-                        </Col>
-                    </Row>
-                </Container>
-            </Row>
-        </Container>
+        <div>
+            <Wrapper config={config} setConfig={setConfig} />
+            <NavBar theme="default" />
+            <Container>
+                <Row className="justify-content-md-center">
+                    <Col md="auto" style={{ textAlign: "center" }}>
+                        <Jumbotron style={cardStyle}>
+                            <Container>
+                                <h1 className="pixelText" style={{ color: "white" }}>Pokedex</h1>
+                                <h6 className="pixelText" style={{ color: "white" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h6>
+                                <br />
+                                <div>
+                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>
+                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
+                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
+                                </div>
+                            </Container>
+                        </Jumbotron>
+                    </Col>
+                </Row>
+                <Modal show={show} onHide={() => handleButtonClick()}>
+                    <Modal.Header style={{ backgroundColor: "#6c757d" }} >
+                        <Modal.Title className="pixelText" style={{ color: "#fff" }}>Pokemon Search</Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={(e) => handleSearchFormSubmit(e)}>
+                        <Modal.Body style={{ backgroundColor: "#6c757d", color: "#fff" }}>
+                            <Form>
+                                <Row>
+                                    <Col style={{ borderRight: "1px solid" }}>
+                                        <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Name</u></Form.Label>
+                                        <Form.Control onClick={(e) => searchType(e, "name")} value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Name" />
+                                    </Col>
+                                    <Col>
+                                        <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Number</u></Form.Label>
+                                        <Form.Control onClick={(e) => searchType(e, "number")} value={num} onChange={(e) => setNum(e.target.value)} type="text" placeholder="Number" />
+                                    </Col>
+                                </Row>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer className="defaultText" style={{ backgroundColor: "#6c757d" }}>
+                            <Button type="submit" variant="danger">Search!</Button>
+                        </Modal.Footer>
+                    </form>
+                </Modal>
+            </Container>
+            <Navbar fixed="bottom" className="defaultText" style={{ backgroundColor: "#E5383B" }}>
+                <Navbar.Collapse className="justify-content-end">
+                    <Navbar.Text style={{ color: "white" }}>
+                        &copy; {new Date().getFullYear()} Copyright: <a href="https://github.com/jmasone15" style={{ color: "white" }}> Jordan Masone </a>
+                    </Navbar.Text>
+                </Navbar.Collapse>
+            </Navbar>
+        </div >
     )
 }

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import API from "../utils/API";
 import "../style.css";
-import { Container, Row, Col, Button, Card, Table, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Table, Navbar, DropdownButton, Dropdown } from 'react-bootstrap';
 import NavBar from '../components/NavBar';
 import Wrapper from "../components/Wrapper";
 import configs from "../utils/backgroundConfig";
+import Footer from '../components/Footer';
 
 export default function PokedexPage() {
 
@@ -91,6 +92,13 @@ export default function PokedexPage() {
                     </Col>
                 </Row>
             </Container>
+            <Navbar fixed="bottom" className="defaultText" style={{ backgroundColor: "#E5383B" }}>
+                <Navbar.Collapse className="justify-content-end">
+                    <Navbar.Text style={{ color: "white" }}>
+                        &copy; {new Date().getFullYear()} Copyright: <a href="https://github.com/jmasone15" style={{ color: "white" }}> Jordan Masone </a>
+                    </Navbar.Text>
+                </Navbar.Collapse>
+            </Navbar>
         </>
     )
 }

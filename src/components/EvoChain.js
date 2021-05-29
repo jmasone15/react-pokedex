@@ -1,5 +1,7 @@
 import React from 'react'
-import { Jumbotron, Container, Row, Col } from 'react-bootstrap'
+import { Jumbotron, Container, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function EvoChain({ cardStyle, evo1, evo2, evo3 }) {
 
@@ -15,7 +17,7 @@ export default function EvoChain({ cardStyle, evo1, evo2, evo3 }) {
                                 <h6>{evo1.name.charAt(0).toUpperCase() + evo1.name.slice(1)}</h6>
                             </Col>
                             <Col xs="auto" style={{ marginTop: "50px" }}>
-                                <p>={'>'}</p>
+                                <FontAwesomeIcon size="lg" icon={faArrowAltCircleRight} />
                             </Col>
                         </>
                     )}
@@ -28,7 +30,7 @@ export default function EvoChain({ cardStyle, evo1, evo2, evo3 }) {
                     {evo3 !== "empty" && (
                         <>
                             <Col xs="auto" style={{ marginTop: "50px" }}>
-                                <p>={'>'}</p>
+                                <FontAwesomeIcon size="lg" icon={faArrowAltCircleRight} />
                             </Col>
                             <Col sm="auto">
                                 <img src={evo3.sprites.front_default} alt={evo3.name} />

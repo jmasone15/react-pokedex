@@ -10,6 +10,7 @@ import TypeBadge from '../components/TypeBadge';
 import StatsTable from '../components/StatsTable';
 import Description from '../components/Description';
 import EvoChain from '../components/EvoChain';
+import Footer from '../components/Footer';
 
 export default function Pokemon() {
 
@@ -137,16 +138,21 @@ export default function Pokemon() {
                             </Col>
                             <Col md={8}>
                                 <Row className="justify-content-md-center">
-                                    <Description info={description} cardStyle={cardStyle} />
+                                    <Col md="auto">
+                                        <Description info={description} cardStyle={cardStyle} />
+                                    </Col>
                                 </Row>
-                                <Row className="justify-content-md-center">
-                                    <EvoChain cardStyle={cardStyle} evo1={evo1} evo2={evo2} evo3={evo3} />
+                                <Row className="justify-content-md-center" md="auto">
+                                    <Col>
+                                        <EvoChain cardStyle={cardStyle} evo1={evo1} evo2={evo2} evo3={evo3} />
+                                    </Col>
                                 </Row>
                             </Col>
                         </Row>
                     </Container>
                 </Container>
             )}
+            <Footer />
         </div >
     )
 }

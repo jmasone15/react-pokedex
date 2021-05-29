@@ -13,11 +13,6 @@ const Pokemon = Loadable({
     loading: Loading,
 });
 
-const Test = Loadable({
-    loader: () => import('./pages/Test'),
-    loading: Loading
-});
-
 const PokedexPage = Loadable({
     loader: () => import("./pages/PokedexPage"),
     loading: Loading,
@@ -32,9 +27,6 @@ export default function Router() {
                 </Route>
                 <Route path="/info">
                     <Pokemon />
-                </Route>
-                <Route path="/test">
-                    <Test />
                 </Route>
                 <Route path="/pokedex">
                     <PokedexPage />
