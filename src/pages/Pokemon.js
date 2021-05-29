@@ -31,13 +31,15 @@ export default function Pokemon() {
     const [config, setConfig] = useState(configs.defaultConfig);
     const headerStyle = {
         color: "white",
-        backgroundColor: "#6c757d"
+        backgroundColor: "#6c757d",
+        border: "solid 1px red"
     };
 
     const cardStyle = {
         backgroundColor: "#6c757d",
         color: "white",
-        textAlign: "center"
+        textAlign: "center",
+        border: "solid 1px red"
     }
 
     const getPokeData = (p) => {
@@ -61,14 +63,23 @@ export default function Pokemon() {
 
     const getPokeDescription = (url) => {
         API.getPokemonData(url).then((res) => {
-            setDescription(res.data.flavor_text_entries[0].flavor_text);
-            getPokeEvolution(res.data.evolution_chain.url);
+            let descArray = res.data.flavor_text_entries;
+
+            for (let i = 0; i < descArray.length; i++) {
+                if (descArray[i].language.name === "en") {
+
+                    setDescription(descArray[i].flavor_text);
+                    getPokeEvolution(res.data.evolution_chain.url);
+
+                    break;
+                }
+
+            }
         });
     };
 
     const getPokeEvolution = (url) => {
         API.getPokemonData(url).then((res) => {
-            console.log(res.data);
 
             if (res.data.chain.species.name !== undefined) {
                 getEvoData(res.data.chain.species.name, 0);

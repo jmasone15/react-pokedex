@@ -6,6 +6,7 @@ export default function StatsTable({ info, cardStyle }) {
         <Jumbotron style={cardStyle}>
             <Container style={{ textAlign: "center" }}>
                 <h3 className="pixelText"><u>Base Stats</u></h3>
+                <br /><br /><br />
                 <Table style={{ color: "white" }}>
                     <tbody>
                         <tr>

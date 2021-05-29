@@ -8,7 +8,7 @@ export default function EvoChain({ cardStyle, evo1, evo2, evo3 }) {
     return (
         <Jumbotron style={cardStyle}>
             <Container style={{ textAlign: "center" }}>
-                <h3 className="pixelText"><u>Evolutions</u></h3>
+                <h3 className="pixelText"><u>Evolution</u></h3>
                 <Row className="justify-content-md-center">
                     {evo1 !== "empty" && (
                         <>
