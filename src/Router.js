@@ -21,7 +21,7 @@ export default function Router() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/" >
+                <Route path="/home" >
                     <Home />
                 </Route>
                 <Route path="/info">
