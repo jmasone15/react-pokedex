@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Route, HashRouter } from "react-router-dom";
 import Loadable from 'react-loadable';
 import Loading from "./components/Loading";
 
@@ -20,17 +20,11 @@ const PokedexPage = Loadable({
 export default function Router() {
     return (
         <BrowserRouter basename="/react-pokedex">
-            <Switch>
-                <Route exact path="/" >
-                    <Home />
-                </Route>
-                <Route exact path="/info">
-                    <Pokemon />
-                </Route>
-                <Route exact path="/pokedex">
-                    <PokedexPage />
-                </Route>
-            </Switch>
+            <HashRouter>
+                <Route exact path="/" component={Home} />
+                <Route path="/info" component={Pokemon} />
+                <Route path="/pokedex" component={PokedexPage} />
+            </HashRouter>
         </BrowserRouter>
     )
 }
