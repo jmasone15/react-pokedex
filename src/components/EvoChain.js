@@ -16,7 +16,7 @@ export default function EvoChain({ cardStyle, evo1, evo2, evo3 }) {
                                 <img src={evo1.sprites.front_default} alt={evo1.name} />
                                 <h6>{evo1.name.charAt(0).toUpperCase() + evo1.name.slice(1)}</h6>
                             </Col>
-                            <Col xs="auto" style={{ marginTop: "50px" }}>
+                            <Col sm="auto" style={{ marginTop: "50px" }}>
                                 <FontAwesomeIcon size="lg" icon={faArrowAltCircleRight} />
                             </Col>
                         </>
@@ -29,7 +29,7 @@ export default function EvoChain({ cardStyle, evo1, evo2, evo3 }) {
                     )}
                     {evo3 !== "empty" && (
                         <>
-                            <Col xs="auto" style={{ marginTop: "50px" }}>
+                            <Col sm="auto" style={{ marginTop: "50px" }}>
                                 <FontAwesomeIcon size="lg" icon={faArrowAltCircleRight} />
                             </Col>
                             <Col sm="auto">

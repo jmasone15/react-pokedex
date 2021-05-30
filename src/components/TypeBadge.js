@@ -5,41 +5,41 @@ export default function TypeBadge({ pokeType, pokeType2, variant1, variant2 }) {
 
     const pokeTypeBadge = (type) => {
         if (type === "Normal") {
-            return "light"
+            return "type normal"
         } else if (type === "Fire") {
-            return "danger"
+            return "type fire"
         } else if (type === "Water") {
-            return "primary"
+            return "type water"
         } else if (type === "Grass") {
-            return "success"
+            return "type grass"
         } else if (type === "Electric") {
-            return "warning"
+            return "type electric"
         } else if (type === "Ice") {
-            return "info"
+            return "type ice"
         } else if (type === "Poison") {
-            return "dark"
+            return "type poison"
         } else if (type === "Fighting") {
-            return "danger"
+            return "type fighting"
         } else if (type === "Ground") {
-            return "secondary"
+            return "type ground"
         } else if (type === "Flying") {
-            return "info"
+            return "type flying"
         } else if (type === "Psychic") {
-            return "danger"
+            return "type psychic"
         } else if (type === "Bug") {
-            return "success"
+            return "type bug"
         } else if (type === "Rock") {
-            return "secondary"
+            return "type rock"
         } else if (type === "Ghost") {
-            return "dark"
+            return "type ghost"
         } else if (type === "Dark") {
-            return "dark"
+            return "type dark"
         } else if (type === "Dargon") {
-            return "primary"
+            return "type dragon"
         } else if (type === "Steel") {
-            return "secondary"
+            return "type steel"
         } else if (type === "Fairy") {
-            return "danger"
+            return "type fairy"
         }
     }
 
@@ -47,14 +47,14 @@ export default function TypeBadge({ pokeType, pokeType2, variant1, variant2 }) {
         <>
             {
                 pokeType2 === "" && (
-                    <h3><Badge pill variant={pokeTypeBadge(pokeType)}>{pokeType}</Badge></h3>
+                    <span className={pokeTypeBadge(pokeType)}>{pokeType}</span>
                 )
             }
             {
                 pokeType2 !== "" && (
                     <div>
-                        <h3 style={{ display: "inline", marginRight: "10px" }}><Badge pill variant={pokeTypeBadge(pokeType)}>{pokeType}</Badge></h3>
-                        <h3 style={{ display: "inline" }}><Badge pill variant={pokeTypeBadge(pokeType2)}>{pokeType2}</Badge></h3>
+                        <span className={pokeTypeBadge(pokeType)}>{pokeType}</span>
+                        <span className={pokeTypeBadge(pokeType2)}>{pokeType2}</span>
                     </div>)
             }
         </>
