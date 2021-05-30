@@ -11,6 +11,7 @@ import StatsTable from '../components/StatsTable';
 import Description from '../components/Description';
 import EvoChain from '../components/EvoChain';
 import Footer from '../components/Footer';
+import { useHistory } from "react-router-dom";
 
 export default function Pokemon() {
 
@@ -23,6 +24,7 @@ export default function Pokemon() {
     const [evo1, setEvo1] = useState("empty");
     const [evo2, setEvo2] = useState("empty");
     const [evo3, setEvo3] = useState("empty");
+    const history = useHistory();
 
     const search = useLocation();
     const poke = search.pathname.slice(6);
@@ -59,6 +61,12 @@ export default function Pokemon() {
                 setShow(false);
             }
         });
+    };
+
+    const changePokePage = (e, poke) => {
+        e.preventDefault();
+        history.push(`/info/${poke}`);
+        window.location.reload();
     };
 
     const getPokeDescription = (url) => {
@@ -155,7 +163,7 @@ export default function Pokemon() {
                                 </Row>
                                 <Row className="justify-content-md-center" md="auto">
                                     <Col>
-                                        <EvoChain cardStyle={cardStyle} evo1={evo1} evo2={evo2} evo3={evo3} />
+                                        <EvoChain cardStyle={cardStyle} evo1={evo1} evo2={evo2} evo3={evo3} changePokePage={changePokePage} />
                                     </Col>
                                 </Row>
                             </Col>
