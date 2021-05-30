@@ -24,10 +24,10 @@ export default function Router() {
                 <Route exact path="/" >
                     <Home />
                 </Route>
-                <Route path="/info">
+                <Route exact path="/info">
                     <Pokemon />
                 </Route>
-                <Route path="/pokedex">
+                <Route exact path="/pokedex">
                     <PokedexPage />
                 </Route>
             </Switch>
