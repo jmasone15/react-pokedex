@@ -19,9 +19,9 @@ const PokedexPage = Loadable({
 
 export default function Router() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/react-pokedex">
             <Switch>
-                <Route path="/home" >
+                <Route exact path="/" >
                     <Home />
                 </Route>
                 <Route path="/info">
