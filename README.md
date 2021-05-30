@@ -3,9 +3,9 @@
 This project is a fully-functional pokedex that allows users to find any data on any pokemon they want.
 
 Users can: 
-    - View the full pokedex.
-    - Search for a specific pokemon by name or number.
-    - Get a random pokemon.
+- View the full pokedex.
+- Search for a specific pokemon by name or number.
+- Get a random pokemon.
 
 ### Images
 
