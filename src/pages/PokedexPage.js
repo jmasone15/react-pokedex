@@ -6,38 +6,34 @@ import { Container, Row, Col, Button, Card, Table, Navbar, DropdownButton, Dropd
 import NavBar from '../components/NavBar';
 import Wrapper from "../components/Wrapper";
 import configs from "../utils/backgroundConfig";
-import Footer from '../components/Footer';
 
 export default function PokedexPage() {
 
+    // State Management
     const [rangePokemon, setRangePokemon] = useState([]);
     const [config, setConfig] = useState(configs.defaultConfig);
     const history = useHistory();
 
     // Function to find all pokemon in a range
     async function getRangeData(e, limit, offset) {
-        if (e) {
-            e.preventDefault();
-        }
+        // Sets the current range Pokemon to 0.
+        if (e) e.preventDefault();
         setRangePokemon([]);
 
+        // Gets the desired range of pokemon of the pokedex.
         const results = await API.getPokemonRange(limit, offset);
         setRangePokemon(results.data.results);
     };
 
+    // Function to change to pokemon info page.
     const changePage = (e, poke) => {
         e.preventDefault();
+
+        // Pushes route into search bar.
         history.push(`/info/${poke}`);
     };
 
-    const pokedexStyle = {
-        position: "relative",
-        top: "200px",
-        width: "auto",
-        backgroundColor: "#6c757d",
-        padding: "50px"
-    };
-
+    // Loads the first 100 pokemon when the page loads.
     useEffect((e) => {
         getRangeData(e, 100)
     }, [])
@@ -48,12 +44,12 @@ export default function PokedexPage() {
             <NavBar theme="default" />
             <Container>
                 <Row className="justify-content-md-center">
-                    <Col lg="auto" style={{ textAlign: "center" }}>
-                        <Card style={pokedexStyle}>
+                    <Col lg="auto" className="centerText">
+                        <Card className="pokedexStyle">
                             <Container>
                                 <Row>
                                     <Col>
-                                        <h1 className="pixelText" style={{ color: "white" }}><u>Pokedex</u></h1>
+                                        <h1 className="pixelText white"><u>Pokedex</u></h1>
                                         <DropdownButton drop="down" title="Pokedex Range" variant="danger" id="dropdown-basic-button">
                                             <Dropdown.Item onClick={(e) => getRangeData(e, 100)} eventKey="1">1-100</Dropdown.Item>
                                             <Dropdown.Item onClick={(e) => getRangeData(e, 100, 100)} eventKey="101">101-200</Dropdown.Item>
@@ -67,11 +63,11 @@ export default function PokedexPage() {
                                         </DropdownButton>
                                     </Col>
                                 </Row>
-                                <Row className="defaultText" style={{ margin: "50px", height: "300px", overflowY: "scroll" }}>
+                                <Row className="defaultText tableScroll">
                                     <Col>
-                                        <Table>
+                                        <Table className="white">
                                             <thead>
-                                                <tr style={{ color: "white" }}>
+                                                <tr>
                                                     <th>Name</th>
                                                     <th>Info</th>
                                                 </tr>
@@ -79,7 +75,7 @@ export default function PokedexPage() {
                                             <tbody>
                                                 {rangePokemon.map((poke, index) => (
                                                     <tr key={index}>
-                                                        <td style={{ color: "white" }}><b>{poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}</b></td>
+                                                        <td><b>{poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}</b></td>
                                                         <td><Button variant="danger" onClick={(e) => changePage(e, poke.name)}>More Info</Button></td>
                                                     </tr>
                                                 ))}

@@ -1,3 +1,4 @@
+// Configs for the moving background
 const configs = {
     defaultConfig: {
         background: {

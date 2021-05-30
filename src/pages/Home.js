@@ -9,19 +9,39 @@ import "../style.css";
 
 export default function Home() {
 
-    const history = useHistory();
+    // State Management
     const [show, setShow] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [name, setName] = useState("");
     const [num, setNum] = useState("");
-
-    // Styles
+    const history = useHistory();
     const [config, setConfig] = useState(configs.defaultConfig);
 
+    // Function to change to pokemon info page.
     const changePage = (e, poke) => {
         e.preventDefault();
+
+        // Pushes route into search bar.
         history.push(`/info/${poke}`);
     };
+
+    // Function to change to pokedex page.
+    const handlePokedexClick = (e) => {
+        e.preventDefault();
+
+        // Pushes route into search bar.
+        history.push("/pokedex");
+    };
+
+    // Modal Functions
+    const handleButtonClick = () => {
+
+        if (show === false) {
+            setShow(true);
+        } else {
+            setShow(false);
+        }
+    }
 
     // Function to find random pokemon
     async function handleRandomClick(e) {
@@ -38,9 +58,9 @@ export default function Home() {
 
         // Send pokemon name to info page
         changePage(e, upperCase);
-
     };
 
+    // Function to set the type of search to either name or number.
     const searchType = (e, type) => {
         e.preventDefault();
 
@@ -49,11 +69,6 @@ export default function Home() {
         } else if (type === "number") {
             setSearchValue("number");
         }
-    };
-
-    const handlePokedexClick = (e) => {
-        e.preventDefault();
-        history.push("/pokedex");
     };
 
     // Function to find pokemon by search
@@ -83,17 +98,6 @@ export default function Home() {
         }
     }
 
-    // Modal Functions
-    const handleButtonClick = () => {
-
-        if (show === false) {
-            setShow(true);
-        } else {
-            setShow(false);
-        }
-    }
-
-
     return (
         <div>
             <Wrapper config={config} setConfig={setConfig} />
@@ -107,9 +111,30 @@ export default function Home() {
                                 <h6 className="pixelText white">Fully updated with all Pokemon from Gen I - Gen VIII</h6>
                                 <br />
                                 <div>
-                                    <Button className="pixelText marg10" type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>
-                                    <Button className="pixelText marg10" type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
-                                    <Button className="pixelText marg10" type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
+                                    <Button
+                                        className="pixelText marg10"
+                                        type="button"
+                                        variant="danger"
+                                        size="lg"
+                                        onClick={(e) => handlePokedexClick(e)}>
+                                        Full Pokedex
+                                    </Button>
+                                    <Button
+                                        className="pixelText marg10"
+                                        type="button"
+                                        variant="danger"
+                                        size="lg"
+                                        onClick={(e) => handleRandomClick(e)}>
+                                        Surprise Me
+                                    </Button>
+                                    <Button
+                                        className="pixelText marg10"
+                                        type="button"
+                                        variant="danger"
+                                        size="lg"
+                                        onClick={() => handleButtonClick()}>
+                                        Search by Name/Number
+                                    </Button>
                                 </div>
                             </Container>
                         </Jumbotron>
@@ -125,11 +150,23 @@ export default function Home() {
                                 <Row>
                                     <Col className="modalBorder">
                                         <Form.Label className="defaultText mr10"><u>By Name</u></Form.Label>
-                                        <Form.Control onClick={(e) => searchType(e, "name")} value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Name" />
+                                        <Form.Control
+                                            onClick={(e) => searchType(e, "name")}
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            type="text"
+                                            placeholder="Name"
+                                        />
                                     </Col>
                                     <Col>
                                         <Form.Label className="defaultText mr10"><u>By Number</u></Form.Label>
-                                        <Form.Control onClick={(e) => searchType(e, "number")} value={num} onChange={(e) => setNum(e.target.value)} type="text" placeholder="Number" />
+                                        <Form.Control
+                                            onClick={(e) => searchType(e, "number")}
+                                            value={num}
+                                            onChange={(e) => setNum(e.target.value)}
+                                            type="text"
+                                            placeholder="Number"
+                                        />
                                     </Col>
                                 </Row>
                             </Form>

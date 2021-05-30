@@ -50,6 +50,12 @@
   color: white;
 }
 
+.tableScroll {
+  margin: 50px; 
+  height: 300px; 
+  overflow-y: scroll;
+}
+
 .headerStyle {
   color: white;
   background-color: #6c757d;
@@ -68,6 +74,14 @@
   top: 300px;
   width: auto;
   background-color: #6c757d;
+}
+
+.pokedexStyle {
+  position: relative;
+  top: 200px;
+  width: auto;
+  background-color: #6c757d;
+  padding: 50px;
 }
 
 .type {
