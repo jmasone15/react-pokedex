@@ -6,6 +6,70 @@
     font-family: "Chakra Petch", sans-serif;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.fs25 {
+  font-size: 25px;
+}
+
+.marg10 {
+  margin: 10px
+}
+
+.modalHead {
+  background-color: #6c757d;
+}
+
+.modalBorder {
+  border-right: 1px solid;
+}
+
+.footerColor {
+  background-color: #E5383B;
+}
+
+.mt50 {
+  margin-top: 50px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.mt100 {
+  margin-top: 100px;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.white {
+  color: white;
+}
+
+.headerStyle {
+  color: white;
+  background-color: #6c757d;
+  border: solid 1px red;
+}
+
+.cardStyle {
+  background-color: #6c757d;
+  color: white;
+  text-align: center;
+  border: solid 1px red;
+}
+
+.homeCardStyle {
+  position: relative;
+  top: 300px;
+  width: auto;
+  background-color: #6c757d;
+}
+
 .type {
   font-size: 15px;
   font-family: 'Trebuchet MS';

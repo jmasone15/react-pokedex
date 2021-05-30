@@ -1,12 +1,12 @@
 import React from 'react'
 import { Container, Jumbotron } from 'react-bootstrap'
 
-export default function Description({ cardStyle, info }) {
+export default function Description({ info }) {
     return (
-        <Jumbotron style={cardStyle}>
+        <Jumbotron className="cardStyle">
             <h3 className="pixelText"><u>Description</u></h3>
             <Container>
-                <p className="defaultText" style={{ fontSize: "25px" }}>{info}</p>
+                <p className="defaultText fs25">{info}</p>
             </Container>
         </Jumbotron>
     )

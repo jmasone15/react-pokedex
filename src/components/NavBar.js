@@ -1,12 +1,9 @@
 import React from 'react'
 import { Navbar } from 'react-bootstrap'
 
-export default function NavBar({ theme }) {
-
-    const defaultStyle = { backgroundColor: "#E5383B" };
-
+export default function NavBar() {
     return (
-        <Navbar variant="dark" expand="lg0" className="defaultText" style={defaultStyle}>
+        <Navbar variant="dark" expand="lg0" className="defaultText footerColor">
             <Navbar.Brand href="/">React Pokedex</Navbar.Brand>
         </Navbar>
     )

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Jumbotron, Container, Table } from "react-bootstrap";
 
-export default function StatsTable({ info, cardStyle }) {
+export default function StatsTable({ info }) {
     return (
-        <Jumbotron style={cardStyle}>
-            <Container style={{ textAlign: "center" }}>
+        <Jumbotron className="cardStyle">
+            <Container className="centerText">
                 <h3 className="pixelText"><u>Base Stats</u></h3>
                 <br /><br /><br />
-                <Table style={{ color: "white" }}>
+                <Table className="white">
                     <tbody>
                         <tr>
                             <th><b>HP:</b></th>

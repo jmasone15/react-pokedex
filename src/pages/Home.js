@@ -17,15 +17,6 @@ export default function Home() {
 
     // Styles
     const [config, setConfig] = useState(configs.defaultConfig);
-    const cardStyle = {
-        position: "relative",
-        top: "300px",
-        width: "auto",
-        backgroundColor: "#6c757d"
-    };
-    const buttonStyle = {
-        margin: "10px"
-    };
 
     const changePage = (e, poke) => {
         e.preventDefault();
@@ -109,47 +100,47 @@ export default function Home() {
             <NavBar theme="default" />
             <Container>
                 <Row className="justify-content-md-center">
-                    <Col md="auto" style={{ textAlign: "center" }}>
-                        <Jumbotron style={cardStyle}>
+                    <Col md="auto" className="centerText">
+                        <Jumbotron className="homeCardStyle">
                             <Container>
-                                <h1 className="pixelText" style={{ color: "white" }}>Pokedex</h1>
-                                <h6 className="pixelText" style={{ color: "white" }}>Fully updated with all Pokemon from Gen I - Gen VIII</h6>
+                                <h1 className="pixelText white">Pokedex</h1>
+                                <h6 className="pixelText white">Fully updated with all Pokemon from Gen I - Gen VIII</h6>
                                 <br />
                                 <div>
-                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>
-                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
-                                    <Button className="pixelText" style={buttonStyle} type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
+                                    <Button className="pixelText marg10" type="button" variant="danger" size="lg" onClick={(e) => handlePokedexClick(e)}>Full Pokedex</Button>
+                                    <Button className="pixelText marg10" type="button" variant="danger" size="lg" onClick={(e) => handleRandomClick(e)}>Surprise Me</Button>
+                                    <Button className="pixelText marg10" type="button" variant="danger" size="lg" onClick={() => handleButtonClick()}>Search by Name/Number</Button>
                                 </div>
                             </Container>
                         </Jumbotron>
                     </Col>
                 </Row>
                 <Modal show={show} onHide={() => handleButtonClick()}>
-                    <Modal.Header style={{ backgroundColor: "#6c757d" }} >
-                        <Modal.Title className="pixelText" style={{ color: "#fff" }}>Pokemon Search</Modal.Title>
+                    <Modal.Header className="modalHead" >
+                        <Modal.Title className="pixelText white">Pokemon Search</Modal.Title>
                     </Modal.Header>
                     <form onSubmit={(e) => handleSearchFormSubmit(e)}>
-                        <Modal.Body style={{ backgroundColor: "#6c757d", color: "#fff" }}>
+                        <Modal.Body className="modalHead white">
                             <Form>
                                 <Row>
-                                    <Col style={{ borderRight: "1px solid" }}>
-                                        <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Name</u></Form.Label>
+                                    <Col className="modalBorder">
+                                        <Form.Label className="defaultText mr10"><u>By Name</u></Form.Label>
                                         <Form.Control onClick={(e) => searchType(e, "name")} value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Name" />
                                     </Col>
                                     <Col>
-                                        <Form.Label className="defaultText" style={{ marginRight: "10px" }}><u>By Number</u></Form.Label>
+                                        <Form.Label className="defaultText mr10"><u>By Number</u></Form.Label>
                                         <Form.Control onClick={(e) => searchType(e, "number")} value={num} onChange={(e) => setNum(e.target.value)} type="text" placeholder="Number" />
                                     </Col>
                                 </Row>
                             </Form>
                         </Modal.Body>
-                        <Modal.Footer className="defaultText" style={{ backgroundColor: "#6c757d" }}>
+                        <Modal.Footer className="defaultText modalHead">
                             <Button type="submit" variant="danger">Search!</Button>
                         </Modal.Footer>
                     </form>
                 </Modal>
             </Container>
-            <Navbar fixed="bottom" className="defaultText" style={{ backgroundColor: "#E5383B" }}>
+            <Navbar fixed="bottom" className="defaultText footerColor">
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text style={{ color: "white" }}>
                         &copy; {new Date().getFullYear()} Copyright: <a href="https://github.com/jmasone15" style={{ color: "white" }}> Jordan Masone </a>

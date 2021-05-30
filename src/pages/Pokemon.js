@@ -31,18 +31,6 @@ export default function Pokemon() {
 
     // Styles
     const [config, setConfig] = useState(configs.defaultConfig);
-    const headerStyle = {
-        color: "white",
-        backgroundColor: "#6c757d",
-        border: "solid 1px red"
-    };
-
-    const cardStyle = {
-        backgroundColor: "#6c757d",
-        color: "white",
-        textAlign: "center",
-        border: "solid 1px red"
-    }
 
     const getPokeData = (p) => {
         let searchString = p.toLowerCase().replace(/\s+/g, '')
@@ -132,15 +120,15 @@ export default function Pokemon() {
                                 <Container>
                                     <Row>
                                         <Col xl={12}>
-                                            <Jumbotron style={headerStyle}>
+                                            <Jumbotron className="headerStyle">
                                                 <Container>
-                                                    <h2 className="pixelText" style={{ color: "white" }}>{pokeName} #{info.id}</h2>
+                                                    <h2 className="pixelText white">{pokeName} #{info.id}</h2>
                                                     <TypeBadge pokeType={pokeType} pokeType2={pokeType2} />
                                                 </Container>
                                             </Jumbotron>
                                         </Col>
                                     </Row>
-                                    <Row className="justify-content-md-center" style={{ marginTop: "50px" }}>
+                                    <Row className="justify-content-md-center mt50">
                                         <Col>
                                             <Image src={info.sprites.front_default} style={{ height: "200px", width: "200px" }} alt={info.name} rounded />
                                             <Image src={info.sprites.back_default} style={{ height: "200px", width: "200px" }} alt={info.name} rounded />
@@ -150,20 +138,20 @@ export default function Pokemon() {
                             </Col>
                         </Row>
                     </Container>
-                    <Container style={{ marginTop: "100px" }}>
+                    <Container className="mt100">
                         <Row className="justify-content-md-center">
                             <Col md={4}>
-                                <StatsTable info={info} cardStyle={cardStyle} />
+                                <StatsTable info={info} className="cardStyle" />
                             </Col>
                             <Col md={8}>
                                 <Row className="justify-content-md-center">
                                     <Col md="auto">
-                                        <Description info={description} cardStyle={cardStyle} />
+                                        <Description info={description} className="cardStyle" />
                                     </Col>
                                 </Row>
                                 <Row className="justify-content-md-center" md="auto">
                                     <Col>
-                                        <EvoChain cardStyle={cardStyle} evo1={evo1} evo2={evo2} evo3={evo3} changePokePage={changePokePage} />
+                                        <EvoChain className="cardStyle" evo1={evo1} evo2={evo2} evo3={evo3} changePokePage={changePokePage} />
                                     </Col>
                                 </Row>
                             </Col>

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Badge } from "react-bootstrap";
 
-export default function TypeBadge({ pokeType, pokeType2, variant1, variant2 }) {
+export default function TypeBadge({ pokeType, pokeType2 }) {
 
     const pokeTypeBadge = (type) => {
         if (type === "Normal") {
@@ -47,14 +46,14 @@ export default function TypeBadge({ pokeType, pokeType2, variant1, variant2 }) {
         <>
             {
                 pokeType2 === "" && (
-                    <span className={pokeTypeBadge(pokeType)}>{pokeType}</span>
+                    <span style={{ marginRight: "10px" }} className={pokeTypeBadge(pokeType)}>{pokeType}</span>
                 )
             }
             {
                 pokeType2 !== "" && (
                     <div>
-                        <span className={pokeTypeBadge(pokeType)}>{pokeType}</span>
-                        <span className={pokeTypeBadge(pokeType2)}>{pokeType2}</span>
+                        <span style={{ marginRight: "10px" }} className={pokeTypeBadge(pokeType)}>{pokeType}</span>
+                        <span style={{ marginRight: "10px" }} className={pokeTypeBadge(pokeType2)}>{pokeType2}</span>
                     </div>)
             }
         </>
